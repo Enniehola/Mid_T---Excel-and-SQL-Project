@@ -1,0 +1,369 @@
+Task 1
+
+
+=@IFS(@JobTitle="HR", "Human Resource",@JobTitle= "Accountant", "Finance",@JobTitle= "Salesman", "Marketing",@JobTitle= "Receptionist", "Admin", OR(@JobTitle="Regional Manager",@JobTitle="Supplier Relations",@JobTitle="Relations"), "Admin")
+
+
+=IFS(@COUNTRY="xxx", "CONTINENT")
+
+=IFS(Continent!B:B="Germany", "Europe", OR(Continent!B:B="UK", Continent!B:B="Sweden", Continent!B:B="France", Continent!B:B="Spain", Continent!B:B="Switzerland", Continent!B:B="Austria", Continent!B:B="Italy", Continent!B:B="Portugal", Continent!B:B="Ireland", Continent!B:B="Belgium", Continent!B:B="Norway", Continent!B:B="Denmark", Continent!B:B="Finland", Continent!B:B="Poland"),"Europe")
+
+=@IFS($F4="Germany","Europe", OR($F4="UK",$F4="Sweden",$F4="France",$F4="Spain",$F4="Switzerland",$F4="Austria",$F4="Italy",$F4="Portugal",$F4="Ireland",$F4="Belgium",$F4="Norway",$F4="Denmark",$F4="Finland", $F4="Poland"),"Europe"), AND($F4="Mexico", $F4="Canada", $F4="USA"), "North America", AND($F4="Argentina", $F4="Brazil", $F4="Venezuela"), "South America")
+
+
+=IFS($F4="Germany", "Europe", $F4="UK", "Europe", $F4="Sweden", "Europe", $F4="France", "Europe", $F4="Spain", "Europe", $F4="Switzerland", "Europe", $F4="Austria", "Europe", $F4="Italy", "Europe", $F4="Portugal", "Europe", $F4="Ireland", "Europe",  $F4="Belgium", "Europe", $F4="Norway", "Europe", $F4="Denmark", "Europe", $F4="Finland", "Europe", $F4="Poland", "Europe", $F4="Mexico", "North America", $F4="Canada", "North America", $F4="USA", "North America", $F4="Argentina", "South America", $F4="Brazil", "South America", $F4="Venezuela", "South America")
+
+
+=IFS($F:$F="Germany","Europe", $F:$F="UK","Europe", $F:$F="Sweden","Europe", $F:$F="France","Europe", $F:$F="Spain","Europe", $F:$F="Switzerland","Europe", $F:$F="Austria","Europe", $F:$F="Italy","Europe", $F:$F="Portugal","Europe", $F:$F="Ireland","Europe",  $F:$F="Belgium","Europe", $F:$F="Norway","Europe", $F:$F="Denmark","Europe", $F:$F="Finland","Europe", $F:$F="Poland","Europe", $F:$F="Mexico","North America", $F:$F="Canada","North America", $F:$F="USA","North America", $F:$F="Argentina","South America", $F:$F="Brazil","South America", $F:$F="Venezuela","South America")
+
+
+
+=IF(@SALARY<=45000,"Manager","Director")
+
+
+
+=IFS(F:F="Germany", "Europe",
+  F:F="UK", "Europe",
+  F:F="Sweden", "Europe",
+  F:F="France", "Europe",
+  F:F="Spain", "Europe",
+  F:F="Switzerland", "Europe",
+  F:F="Austria", "Europe",
+  F:F="Italy", "Europe",
+  F:F="Portugal", "Europe",
+  F:F="Ireland", "Europe",
+  F:F="Belgium", "Europe",
+  F:F="Norway", "Europe",
+  F:F="Denmark", "Europe",
+  F:F="Finland", "Europe",
+  F:F="Poland", "Europe",
+  F:F="Mexico", "North America",
+  F:F="Canada", "North America",
+  F:F="USA", "North America",
+  F:F="Argentina", "South America",
+  F:F="Brazil", "South America",
+  F:F="Venezuela", "South America"
+)
+
+=========================================================
+
+Task 2
+
+=CONCATENATE(B4,","," ",C4,","," ",E4)
+
+
+
+
+=========================================================
+
+Task 3
+
+
+=LEFT(Products!E2, SEARCH(" ",@Products!E:E)-1)
+
+
+Total sales
+-- Sales: Multiply OrderDetails!Quantity X Products!Unit
+
+If Product is related to OrderDetail, you can get price into orderDetail
+
+
+Customer's Order
+-- link OrderDetails!orderID to order!CustomerID to get Customer order details
+
+
+-- link order!CustomerID to Customer!CustomerID
+
+
+============================================================================================
+
+SQL Task
+
+
+Continent: Continent	Country
+
+Products: ProductID	ProductName	SupplierID	CategoryID	Unit	 Price
+
+orders: OrderID	CustomerID	EmployeeID	OrderDate	ShipperID
+
+OrderDetail: OrderDetailID	OrderID	ProductID	Quantity
+
+Customers: CustomerID	CustomerName	ContactName	Address	City	PostalCode	Country	Continent
+
+
+
+Question 1.	Create Table Products, Orders, OrderDetails & Customers
+
+
+
+/**CREATION OF DATABASE**/
+
+--CREATE DATABASE MidTerm;
+
+/**CREATION OF TABLES**/
+
+--CREATE TABLE Products
+--(
+--ProductID INT NOT NULL,
+--ProductName VARCHAR(100) NOT NULL,
+--SupplierID INT NOT NULL,
+--CategoryID INT NOT NULL,
+--Unit VARCHAR(50),
+--Price DECIMAL(10, 2)
+);
+
+ --SELECT * FROM Products
+
+CREATE TABLE orders
+--(
+--OrderID INT NOT NULL,
+--CustomerID INT NOT NULL,
+--EmployeeID INT NOT NULL,
+--OrderDate DATE,
+--ShipperID INT NOT NULL
+--);
+
+ --SELECT * FROM orders
+
+
+CREATE TABLE OrderDetail
+--(
+--OrderDetailID INT NOT NULL,
+--OrderID INT NOT NULL,
+--ProductID INT NOT NULL,
+--Quantity INT NOT NULL,
+--);
+
+ --SELECT * FROM OrderDetail
+
+
+/**FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)**/
+/**FOREIGN KEY (ProductID) REFERENCES Products(ProductID)**/
+
+
+CREATE TABLE Customers
+--(
+--CustomerID INT PRIMARY KEY,
+--CustomerName VARCHAR(255) NOT NULL,
+--ContactName VARCHAR(100),
+--Address VARCHAR(255),
+--City VARCHAR(50),
+--PostalCode VARCHAR(20),
+--Country VARCHAR(50),
+--Continent VARCHAR(50),
+--);
+
+ --SELECT * FROM Customers
+
+/**FOREIGN KEY (Country, Continent) REFERENCES Continent(Country, Continent)**/
+
+
+CREATE TABLE Continent
+--(
+--Continent VARCHAR(50) NOT NULL,
+--Country VARCHAR(50) NOT NULL,
+--);
+
+
+--SELECT * FROM Products
+--SELECT * FROM orders
+--SELECT * FROM OrderDetail
+--SELECT * FROM Customers
+
+
+
+/** INSERTING RECORDS INTO DATABASE **/
+
+/** Products Table **/
+/** THE INSERTED VALUES ARE CONCATENATED COLUMNS FROM THE PRODUCTS TABLE **/
+
+--INSERT INTO Products(ProductID, ProductName, SupplierID, CategoryID, Unit	, Price)
+--VALUES 
+
+--(1 ,'Chais ',1 ,1 ,'10boxesx20bags ',18),
+--(2 ,'Chang ',1 ,1 ,'24-12ozbottles ',19),
+--(3 ,'Aniseed Syrup ',1 ,2 ,'12-550mlbottles ',10),
+--(4 ,'Chef Antons Cajun Seasoning ',2 ,2 ,'48-6ozjars ',22),
+--(77 ,'Original Frankfurter grüne Soße ',12 ,2 ,'12boxes ',13);
+
+
+/**orders Table **/
+/** THE INSERTED VALUES ARE CONCATENATED COLUMNS FROM THE orders TABLE **/
+
+--INSERT INTO orders (OrderID, CustomerID, EmployeeID, OrderDate, ShipperID)
+--VALUES
+
+--(10248 ,90 ,5 ,'7/04/1996',3 ),
+--(10249 ,81 ,6 ,'7/05/1996',1 ),
+--(10250 ,34 ,4 ,'7/06/1996',2 ),
+--(10443 ,66 ,8 ,'1/15/1997',1 );
+
+
+
+
+/**OrderDetail Table**/
+/** THE INSERTED VALUES ARE CONCATENATED COLUMNS FROM THE OrderDetail TABLE **/
+
+
+--INSERT INTO OrderDetail (OrderDetailID, OrderID, ProductID, Quantity)
+--VALUES 
+--(1 ,10248 ,11 ,12),
+--(2 ,10248 ,42 ,10),
+--(3 ,10248 ,72 ,5),
+--(518 ,10443 ,28 ,12);
+
+
+
+/**Customer Table**/
+/** THE INSERTED VALUES ARE CONCATENATED COLUMNS FROM THE Customer TABLE **/
+
+
+--INSERT INTO Customers (CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country)
+--VALUES
+--(1 ,'Alfreds Futterkiste ','Maria Anders ','Obere Str 57 ','Berlin ','12209 ','Germany'),
+--(2 ,'Ana Trujillo Emparedados y helados ','Ana Trujillo ','Avda de la Constitución 2222 ','México DF ','05021 ','Mexico'),
+--(3 ,'Antonio Moreno Taquería ','Antonio Moreno ','Mataderos 2312 ','México DF ','05023 ','Mexico'),
+--(91 ,'Wolski ','Zbyszek ','ul Filtrowa 68 ','Walla ','01-012 ','Poland');
+
+
+--SELECT * FROM Products
+--SELECT * FROM orders
+--SELECT * FROM OrderDetail
+--SELECT * FROM Customers
+
+/**SQL TASK 2**/
+/**The SQL CASE Expression for Derived columns**/
+
+
+--SELECT CustomerID, CustomerName, ContactName, Address, City, PostalCode, Country,
+--CASE
+--WHEN Country = 'Germany' THEN 'Europe'
+--	WHEN Country = 'UK' THEN 'Europe'
+--	WHEN Country = 'Sweden' THEN 'Europe'
+--	WHEN Country = 'France' THEN 'Europe'
+--	WHEN Country = 'Spain' THEN 'Europe'
+--	WHEN Country = 'Switzerland' THEN 'Europe'
+--	WHEN Country = 'Austria' THEN 'Europe'
+--	WHEN Country = 'Italy' THEN 'Europe'
+--	WHEN Country = 'Portugal' THEN 'Europe'
+--	WHEN Country = 'Ireland' THEN 'Europe'
+--	WHEN Country = 'Belgium' THEN 'Europe'
+--	WHEN Country = 'Norway' THEN 'Europe'
+--	WHEN Country = 'Denmark' THEN 'Europe'
+--	WHEN Country = 'Finland' THEN 'Europe'
+--	WHEN Country = 'Poland' THEN 'Europe'
+--	WHEN Country = 'Mexico' THEN 'North America'
+--	WHEN Country = 'Canada' THEN 'North America'
+--	WHEN Country = 'USA' THEN 'North America'
+--	WHEN Country = 'Argentina' THEN 'South America'
+--	WHEN Country = 'Brazil' THEN 'South America'
+--	WHEN Country = 'Venezuela' THEN 'South America'
+--	ELSE NULL
+--END AS Continent
+--FROM Customers;
+
+
+/** UPDATE EXISTING RECORD**/
+
+/**SQL Task 3**/
+
+/**--update the ContactName to "Juan" for all records where country is "Mexico"**/
+
+--UPDATE Customers
+--SET ContactName = 'Juan'
+--WHERE Country = 'Mexico';
+
+--SELECT * FROM Customers
+--WHERE ContactName = 'Juan' AND Country = 'Mexico';
+
+
+/**SQL Task 4**/
+
+/**delete the customer "Alfreds Futterkiste" from the "Customers" table**/
+
+--DELETE FROM Customers
+--WHERE CustomerName = 'Alfreds Futterkiste';
+
+--DELETE FROM Customers
+--WHERE CustomerID = 1;
+
+--SELECT * FROM Customers
+
+
+/**SQL Task 5**/
+/**Select all customers from Spain that starts with the letter 'G'**/
+
+--SELECT *
+--FROM Customers
+--WHERE Country = 'Spain' AND CustomerName LIKE 'G%';
+
+SELECT * FROM Customers
+
+/**SQL Task 6**/
+/**selects all fields from Customers where Country is "Germany" AND City is "Berlin" AND PostalCode is higher than 12000
+**/
+
+--SELECT *
+--FROM Customers
+--WHERE Country = 'Germany' 
+--  AND City = 'Berlin' 
+--  AND PostalCode > '12000';
+
+--/** Alfreds Futterkiste is the customer in this postalcode. His record has been deleted from task 4**/
+
+
+/**SQL Task 7**/
+/**Select customers that are not from Paris or London**/
+
+SELECT * FROM Customers
+WHERE City NOT IN ('Paris', 'London ');
+
+/**Query is meant to exclude 'Paris' and 'London'. 'Paris' is not on the result, but the query still returns 'London')**/
+/**I copied London from my query result and pasted it in my query**/
+
+SELECT * FROM Customers
+
+--/**SQL Task 8**/
+--/**selects all products with a price between 10 and 20. In addition, the CategoryID must be either 1,2, or 3**/
+
+--SELECT *
+--FROM Products
+--WHERE Price BETWEEN 10 AND 20
+--  AND CategoryID IN (1, 2, 3);
+
+
+--/**SQL Task 9**/
+--/**Write a SQL statement lists the number of customers in each country, sorted high to low 
+--(Only include countries with more than 5 customers)**/
+
+
+SELECT Country, COUNT(*) AS No_of_Customers
+FROM Customers
+GROUP BY Country
+HAVING COUNT(*) > 5
+ORDER BY No_of_Customers DESC;
+
+/** The below returns the result without the labeled column for country**/
+--SELECT COUNT(Country) AS No_of_Customers
+--FROM Customers
+--GROUP BY Country
+--HAVING COUNT(Country) > 5
+--ORDER BY No_of_Customers DESC;
+
+
+
+
+
+SELECT Country,
+CASE
+WHEN Country = 'Germany' THEN 'Europe'
+	WHEN DR.Location = 'UK' THEN 'Abroad'
+	ELSE NU
+END AS Continent
+FROM MidTerm_Test;
+
+/**PRIMARY KEY (Continent, Country)**/
+
+
+
+
